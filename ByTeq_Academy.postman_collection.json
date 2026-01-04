@@ -1,0 +1,922 @@
+{
+  "info": {
+    "name": "ByTeq Academy API",
+    "description": "Complete API Collection for ByTeq Academy - Cybersecurity Learning Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"أحمد محمد\",\n  \"email\": \"ahmed@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.environment.set(\"token\", jsonData.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ahmed@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Admin Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.environment.set(\"admin_token\", jsonData.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@byteqacademy.com\",\n  \"password\": \"admin123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ahmed@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/forgot-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "forgot-password"]
+            }
+          }
+        },
+        {
+          "name": "Update Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"password123\",\n  \"newPassword\": \"newPassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/update-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "update-password"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👤 User Profile",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": ["{{base_url}}"],
+              "path": ["users", "me"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"أحمد محمد المحدث\",\n  \"bio\": \"مطور برمجيات\",\n  \"phone\": \"01012345678\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/users/me",
+              "host": ["{{base_url}}"],
+              "path": ["users", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get My Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/users/stats",
+              "host": ["{{base_url}}"],
+              "path": ["users", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏷️ Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/categories",
+              "host": ["{{base_url}}"],
+              "path": ["categories"]
+            }
+          }
+        },
+        {
+          "name": "Get Category by Slug",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/categories/python-programming",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "python-programming"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📚 Courses",
+      "item": [
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/courses?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["courses"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Featured Courses",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/courses/featured",
+              "host": ["{{base_url}}"],
+              "path": ["courses", "featured"]
+            }
+          }
+        },
+        {
+          "name": "Search Courses",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/courses?search=python&level=مبتدئ",
+              "host": ["{{base_url}}"],
+              "path": ["courses"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "python"
+                },
+                {
+                  "key": "level",
+                  "value": "مبتدئ"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📖 Enrollments",
+      "item": [
+        {
+          "name": "Enroll in Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/enrollments/courses/:courseId/enroll",
+              "host": ["{{base_url}}"],
+              "path": ["enrollments", "courses", ":courseId", "enroll"],
+              "variable": [
+                {
+                  "key": "courseId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Enrollments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/enrollments/my-enrollments",
+              "host": ["{{base_url}}"],
+              "path": ["enrollments", "my-enrollments"]
+            }
+          }
+        },
+        {
+          "name": "Complete Lecture",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/enrollments/lectures/:lectureId/complete",
+              "host": ["{{base_url}}"],
+              "path": ["enrollments", "lectures", ":lectureId", "complete"],
+              "variable": [
+                {
+                  "key": "lectureId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📝 Quizzes",
+      "item": [
+        {
+          "name": "Get Course Quizzes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/quizzes/courses/:courseId",
+              "host": ["{{base_url}}"],
+              "path": ["quizzes", "courses", ":courseId"],
+              "variable": [
+                {
+                  "key": "courseId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Start Quiz",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/quizzes/:quizId/start",
+              "host": ["{{base_url}}"],
+              "path": ["quizzes", ":quizId", "start"],
+              "variable": [
+                {
+                  "key": "quizId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Submit Quiz",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"attemptId\": \"attempt_id\",\n  \"answers\": [\n    {\n      \"questionId\": \"question_id_1\",\n      \"answer\": \"option_a\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/quizzes/:quizId/submit",
+              "host": ["{{base_url}}"],
+              "path": ["quizzes", ":quizId", "submit"],
+              "variable": [
+                {
+                  "key": "quizId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "⭐ Reviews",
+      "item": [
+        {
+          "name": "Get Course Reviews",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/reviews/courses/:courseId",
+              "host": ["{{base_url}}"],
+              "path": ["reviews", "courses", ":courseId"],
+              "variable": [
+                {
+                  "key": "courseId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 5,\n  \"comment\": \"دورة ممتازة جداً!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/reviews/courses/:courseId",
+              "host": ["{{base_url}}"],
+              "path": ["reviews", "courses", ":courseId"],
+              "variable": [
+                {
+                  "key": "courseId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎓 Certificates",
+      "item": [
+        {
+          "name": "Get My Certificates",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/certificates/my-certificates",
+              "host": ["{{base_url}}"],
+              "path": ["certificates", "my-certificates"]
+            }
+          }
+        },
+        {
+          "name": "Generate Certificate",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/certificates/courses/:courseId/generate",
+              "host": ["{{base_url}}"],
+              "path": ["certificates", "courses", ":courseId", "generate"],
+              "variable": [
+                {
+                  "key": "courseId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Verify Certificate",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/certificates/verify/:certificateId",
+              "host": ["{{base_url}}"],
+              "path": ["certificates", "verify", ":certificateId"],
+              "variable": [
+                {
+                  "key": "certificateId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Search",
+      "item": [
+        {
+          "name": "Search Courses",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/search/courses?keyword=python",
+              "host": ["{{base_url}}"],
+              "path": ["search", "courses"],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "python"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Suggestions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/search/suggestions?keyword=pyth",
+              "host": ["{{base_url}}"],
+              "path": ["search", "suggestions"],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "pyth"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🛡️ Admin - Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/stats",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Get Users Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/dashboard/users-stats",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dashboard", "users-stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🛡️ Admin - Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/categories",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"الذكاء الاصطناعي\",\n  \"description\": \"دورات الذكاء الاصطناعي والتعلم الآلي\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/categories",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"الذكاء الاصطناعي المتقدم\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/categories/:categoryId",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "categories", ":categoryId"],
+              "variable": [
+                {
+                  "key": "categoryId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/categories/:categoryId",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "categories", ":categoryId"],
+              "variable": [
+                {
+                  "key": "categoryId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🛡️ Admin - Courses",
+      "item": [
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/courses",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "courses"]
+            }
+          }
+        },
+        {
+          "name": "Create Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Python للمبتدئين\",\n  \"slug\": \"python-for-beginners\",\n  \"description\": \"تعلم برمجة بايثون من الصفر\",\n  \"categoryId\": \"category_id\",\n  \"price\": 0,\n  \"level\": \"مبتدئ\",\n  \"language\": \"عربي\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/courses",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "courses"]
+            }
+          }
+        },
+        {
+          "name": "Publish Course",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/courses/:courseId/publish",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "courses", ":courseId", "publish"],
+              "variable": [
+                {
+                  "key": "courseId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🛡️ Admin - Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/users",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "Change User Role",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"admin\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/users/:userId/change-role",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "users", ":userId", "change-role"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Toggle Block User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/users/:userId/toggle-block",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "users", ":userId", "toggle-block"],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
