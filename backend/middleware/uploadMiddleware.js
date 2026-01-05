@@ -1,5 +1,6 @@
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const ErrorResponse = require('../utils/errorResponse');
 
 /**
@@ -7,8 +8,22 @@ const ErrorResponse = require('../utils/errorResponse');
  * للتعامل مع رفع الملفات (صور فقط)
  */
 
-// تخزين مؤقت في الذاكرة
-const storage = multer.memoryStorage();
+// إنشاء مجلد uploads إذا لم يكن موجوداً
+const uploadDir = path.join(__dirname, '..', 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// تخزين في المجلد المحلي مؤقتاً
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  },
+});
 
 // فلترة أنواع الملفات - صور فقط
 const fileFilter = (req, file, cb) => {

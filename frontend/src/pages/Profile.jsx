@@ -7,11 +7,11 @@ import {
   FiCalendar, FiCheckCircle, FiBook, FiVideo, FiStar
 } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
-import { enrollmentAPI, authAPI } from '../api/axios';
+import { enrollmentAPI, authAPI, userAPI } from '../api/axios';
 import toast from 'react-hot-toast';
 
 const Profile = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateProfile } = useAuth();
   const [activeTab, setActiveTab] = useState('info'); // info, courses, certificates, settings
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -39,6 +39,7 @@ const Profile = () => {
   });
 
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -97,7 +98,7 @@ const Profile = () => {
     setLoading(true);
     try {
       const data = await authAPI.updateProfile(formData);
-      updateUser(data.user);
+      updateProfile(data.user);
       toast.success('تم تحديث الملف الشخصي بنجاح! ✅');
       setIsEditing(false);
     } catch (error) {
@@ -145,6 +146,38 @@ const Profile = () => {
       location: user?.location || '',
     });
     setIsEditing(false);
+  };
+
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // التحقق من نوع الملف
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error('يُسمح بالصور فقط (JPG, PNG, GIF, WEBP)');
+      return;
+    }
+
+    // التحقق من حجم الملف (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('حجم الصورة يجب أن لا يتجاوز 5 ميجابايت');
+      return;
+    }
+
+    setUploadingAvatar(true);
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    try {
+      const data = await userAPI.uploadAvatar(formData);
+      updateProfile({ ...user, avatar: data.data.avatar });
+      toast.success('تم رفع الصورة بنجاح! 📸');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'فشل رفع الصورة');
+    } finally {
+      setUploadingAvatar(false);
+    }
   };
 
   const statsCards = [
@@ -202,9 +235,25 @@ const Profile = () => {
                   user?.name?.charAt(0).toUpperCase()
                 )}
               </div>
-              <button className="absolute bottom-0 right-0 w-10 h-10 bg-primary hover:bg-primary/80 rounded-full flex items-center justify-center shadow-lg transition-colors">
-                <FiCamera className="text-white" />
-              </button>
+              <input
+                type="file"
+                id="avatar-upload"
+                accept="image/*"
+                onChange={handleAvatarUpload}
+                className="hidden"
+              />
+              <label
+                htmlFor="avatar-upload"
+                className={`absolute bottom-0 right-0 w-10 h-10 bg-primary hover:bg-primary/80 
+                  rounded-full flex items-center justify-center shadow-lg transition-colors cursor-pointer
+                  ${uploadingAvatar ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {uploadingAvatar ? (
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <FiCamera className="text-white" />
+                )}
+              </label>
             </div>
 
             {/* User Info */}

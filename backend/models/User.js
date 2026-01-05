@@ -127,8 +127,17 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+// ================================
+// Virtual: avatar على مستوى الـ user مباشرة
+// ================================
+userSchema.virtual('avatar').get(function () {
+  return this.profile?.avatar || 'https://via.placeholder.com/150';
+});
 
 // ================================
 // Middleware: تشفير كلمة المرور قبل الحفظ

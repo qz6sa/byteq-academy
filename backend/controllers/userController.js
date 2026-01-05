@@ -1,7 +1,8 @@
 const asyncHandler = require('../utils/asyncHandler');
 const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
-const cloudinary = require('../config/cloudinary');
+const { cloudinary } = require('../config/cloudinary');
+const fs = require('fs');
 
 /**
  * @desc    جلب بياناتي
@@ -56,28 +57,42 @@ exports.uploadAvatar = asyncHandler(async (req, res, next) => {
 
   const user = await User.findById(req.user._id);
 
-  // حذف الصورة القديمة من Cloudinary
-  if (user.profile.avatar && user.profile.avatar.includes('cloudinary')) {
-    const publicId = user.profile.avatar.split('/').pop().split('.')[0];
-    await cloudinary.uploader.destroy(`avatars/${publicId}`);
+  try {
+    // حذف الصورة القديمة من Cloudinary
+    if (user.profile.avatar && user.profile.avatar.includes('cloudinary')) {
+      const urlParts = user.profile.avatar.split('/');
+      const publicIdWithExt = urlParts[urlParts.length - 1];
+      const publicId = publicIdWithExt.split('.')[0];
+      const folderPath = urlParts.slice(7, -1).join('/');
+      await cloudinary.uploader.destroy(`${folderPath}/${publicId}`);
+    }
+
+    // رفع الصورة الجديدة
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'byteq-academy/avatars',
+      width: 200,
+      height: 200,
+      crop: 'fill',
+    });
+
+    user.profile.avatar = result.secure_url;
+    await user.save();
+
+    // حذف الملف المحلي بعد الرفع
+    fs.unlinkSync(req.file.path);
+
+    res.status(200).json({
+      success: true,
+      message: 'تم رفع الصورة بنجاح',
+      data: { avatar: result.secure_url },
+    });
+  } catch (error) {
+    // حذف الملف المحلي في حالة فشل الرفع
+    if (req.file && req.file.path && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+    return next(new ErrorResponse('فشل رفع الصورة', 500));
   }
-
-  // رفع الصورة الجديدة
-  const result = await cloudinary.uploader.upload(req.file.path, {
-    folder: 'avatars',
-    width: 200,
-    height: 200,
-    crop: 'fill',
-  });
-
-  user.profile.avatar = result.secure_url;
-  await user.save();
-
-  res.status(200).json({
-    success: true,
-    message: 'تم رفع الصورة بنجاح',
-    data: { avatar: result.secure_url },
-  });
 });
 
 /**
@@ -90,8 +105,15 @@ exports.deleteMe = asyncHandler(async (req, res, next) => {
 
   // حذف الصورة من Cloudinary
   if (user.profile.avatar && user.profile.avatar.includes('cloudinary')) {
-    const publicId = user.profile.avatar.split('/').pop().split('.')[0];
-    await cloudinary.uploader.destroy(`avatars/${publicId}`);
+    try {
+      const urlParts = user.profile.avatar.split('/');
+      const publicIdWithExt = urlParts[urlParts.length - 1];
+      const publicId = publicIdWithExt.split('.')[0];
+      const folderPath = urlParts.slice(7, -1).join('/');
+      await cloudinary.uploader.destroy(`${folderPath}/${publicId}`);
+    } catch (error) {
+      console.error('خطأ في حذف الصورة:', error);
+    }
   }
 
   await user.deleteOne();
