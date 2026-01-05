@@ -91,7 +91,8 @@ exports.uploadAvatar = asyncHandler(async (req, res, next) => {
     if (req.file && req.file.path && fs.existsSync(req.file.path)) {
       fs.unlinkSync(req.file.path);
     }
-    return next(new ErrorResponse('فشل رفع الصورة', 500));
+    console.error('Avatar upload error:', error);
+    return next(new ErrorResponse(`فشل رفع الصورة: ${error.message}`, 500));
   }
 });
 
