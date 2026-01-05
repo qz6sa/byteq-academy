@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema(
     profile: {
       avatar: {
         type: String,
-        default: 'https://via.placeholder.com/150',
+        default: 'https://ui-avatars.com/api/?name=User&background=6366f1&color=fff&size=200',
       },
       bio: {
         type: String,
@@ -136,7 +136,7 @@ const userSchema = new mongoose.Schema(
 // Virtual: avatar على مستوى الـ user مباشرة
 // ================================
 userSchema.virtual('avatar').get(function () {
-  return this.profile?.avatar || 'https://via.placeholder.com/150';
+  return this.profile?.avatar || 'https://ui-avatars.com/api/?name=User&background=6366f1&color=fff&size=200';
 });
 
 // ================================
