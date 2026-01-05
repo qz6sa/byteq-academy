@@ -280,7 +280,7 @@ const Terms = () => {
                   </p>
                   <div className="glass-card p-6 bg-secondary/10">
                     <p className="text-lg">
-                      📧 <strong>البريد الإلكتروني:</strong> <span className="text-secondary">legal@byteq.academy</span>
+                      📧 <strong>البريد الإلكتروني:</strong> <span className="text-secondary">info@byteqacademy.com</span>
                     </p>
                   </div>
                 </div>

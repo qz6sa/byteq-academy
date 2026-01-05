@@ -279,7 +279,7 @@ const Privacy = () => {
                   </ul>
                   <div className="mt-4 glass-card p-4 bg-primary/10">
                     <p className="text-gray-300">
-                      لممارسة أي من هذه الحقوق، راسلنا على: <strong className="text-primary">privacy@byteq.academy</strong>
+                      لممارسة أي من هذه الحقوق، راسلنا على: <strong className="text-primary">info@byteqacademy.com</strong>
                     </p>
                   </div>
                 </div>
@@ -323,7 +323,7 @@ const Privacy = () => {
                   </p>
                   <div className="glass-card p-6 bg-primary/10">
                     <p className="text-lg">
-                      📧 <strong>البريد الإلكتروني:</strong> <span className="text-primary">privacy@byteq.academy</span>
+                      📧 <strong>البريد الإلكتروني:</strong> <span className="text-primary">info@byteqacademy.com</span>
                     </p>
                   </div>
                 </div>
