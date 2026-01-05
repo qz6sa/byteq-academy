@@ -272,9 +272,9 @@ const Contact = () => {
                       <FiMail className="text-primary text-2xl mt-1 flex-shrink-0" />
                       <div>
                         <h4 className="font-bold text-white mb-2">البريد الإلكتروني</h4>
-                        <p className="text-gray-400">الدعم الفني: support@byteq.academy</p>
-                        <p className="text-gray-400">الاستفسارات العامة: info@byteq.academy</p>
-                        <p className="text-gray-400">الشراكات: partners@byteq.academy</p>
+                        <p className="text-gray-400">الدعم الفني: support@byteqacademy.com</p>
+                        <p className="text-gray-400">الاستفسارات العامة: info@byteqacademy.com</p>
+                        <p className="text-gray-400">مرحباً: hello@byteqacademy.com</p>
                       </div>
                     </div>
 

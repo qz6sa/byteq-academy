@@ -128,7 +128,7 @@ const Login = () => {
         {/* Demo Credentials */}
         <Card className="mt-4 bg-primary/10 border-primary/30">
           <p className="text-sm text-gray-300 mb-2 font-semibold">حساب تجريبي للمدير:</p>
-          <p className="text-xs text-gray-400">البريد: admin@byteqacademy.com</p>
+          <p className="text-xs text-gray-400">البريد: support@byteqacademy.com</p>
           <p className="text-xs text-gray-400">كلمة المرور: admin123456</p>
         </Card>
       </motion.div>
