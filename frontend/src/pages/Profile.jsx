@@ -240,18 +240,20 @@ const Profile = () => {
                 id="avatar-upload"
                 accept="image/*"
                 onChange={handleAvatarUpload}
+                disabled={uploadingAvatar}
                 className="hidden"
               />
               <label
                 htmlFor="avatar-upload"
                 className={`absolute bottom-0 right-0 w-10 h-10 bg-primary hover:bg-primary/80 
                   rounded-full flex items-center justify-center shadow-lg transition-colors cursor-pointer
-                  ${uploadingAvatar ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  ${uploadingAvatar ? 'opacity-50 pointer-events-none' : ''}`}
+                title="رفع صورة شخصية"
               >
                 {uploadingAvatar ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
-                  <FiCamera className="text-white" />
+                  <FiCamera className="text-white text-xl" />
                 )}
               </label>
             </div>
