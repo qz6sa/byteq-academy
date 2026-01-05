@@ -10,6 +10,9 @@ const connectDB = require('./config/db');
 // تهيئة التطبيق
 const app = express();
 
+// Trust proxy - مهم للعمل خلف Nginx
+app.set('trust proxy', 1);
+
 // الاتصال بقاعدة البيانات
 connectDB();
 
