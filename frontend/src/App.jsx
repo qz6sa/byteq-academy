@@ -32,6 +32,7 @@ import ManageUsers from './pages/admin/ManageUsers';
 import ManageReviews from './pages/admin/ManageReviews';
 import Learning from './pages/Learning';
 import Profile from './pages/Profile';
+import ProfileTest from './pages/ProfileTest';
 
 // Placeholder components
 const MyCourses = () => <div className="container mx-auto px-4 py-20"><h1 className="text-4xl font-bold text-center">دوراتي - قيد الإنشاء</h1></div>;
@@ -84,14 +85,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             
             {/* Protected User Routes */}
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/profile" element={<ProfileTest />} />
             <Route
               path="/my-courses"
               element={

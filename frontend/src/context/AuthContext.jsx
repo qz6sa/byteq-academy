@@ -22,13 +22,26 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     const token = localStorage.getItem('token');
+    const savedUser = localStorage.getItem('user');
+    
     if (token) {
       try {
         const response = await authAPI.getMe();
         setUser(response.user);
+        localStorage.setItem('user', JSON.stringify(response.user));
       } catch (error) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        // إذا فشل API، استخدم البيانات المحفوظة
+        if (savedUser) {
+          try {
+            setUser(JSON.parse(savedUser));
+          } catch (e) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+          }
+        } else {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+        }
       }
     }
     setLoading(false);

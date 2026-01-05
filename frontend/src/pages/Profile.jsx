@@ -24,6 +24,12 @@ const Profile = () => {
     certificates: 0,
   });
 
+  // Debug log
+  useEffect(() => {
+    console.log('✅ Profile Component Mounted');
+    console.log('User:', user);
+  }, []);
+
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
