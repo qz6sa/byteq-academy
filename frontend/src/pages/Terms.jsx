@@ -116,7 +116,7 @@ const Terms = () => {
                 <div id="definitions">
                   <h2 className="text-3xl font-bold mb-4 text-secondary">2. التعريفات</h2>
                   <ul className="space-y-2 text-gray-300">
-                    <li><strong className="text-white">"المنصة" أو "الموقع":</strong> byteq.academy وجميع الخدمات المرتبطة</li>
+                    <li><strong className="text-white">"المنصة" أو "الموقع":</strong> byteqacademy.com وجميع الخدمات المرتبطة</li>
                     <li><strong className="text-white">"نحن" أو "ByTeq":</strong> القائمون على إدارة وتشغيل المنصة</li>
                     <li><strong className="text-white">"المستخدم" أو "أنت":</strong> أي شخص يصل إلى المنصة أو يستخدمها</li>
                     <li><strong className="text-white">"المحتوى":</strong> جميع الدورات، الفيديوهات، المواد التعليمية، والموارد</li>
